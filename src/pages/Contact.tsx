@@ -1,11 +1,62 @@
 import { Layout } from "@/components/layout";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Phone, Mail, MapPin, Send, MessageCircle } from "lucide-react";
+import { Phone, Mail, MapPin, Send, MessageCircle, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
 
 const Contact = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+
+    // Add configuration fields
+    const payload = {
+      ...data,
+      _subject: "New Contact Form Submission - Laprrk Associates",
+      _captcha: "false",
+      _template: "table",
+    };
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/laprrkassociates@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        setShowSuccess(true);
+        (e.target as HTMLFormElement).reset();
+      } else {
+        console.error("Form submission failed");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <Layout>
       <section className="pt-32 pb-16 gradient-hero text-primary-foreground">
@@ -38,25 +89,49 @@ const Contact = () => {
               </a>
             </motion.div>
             <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-              <form action="https://formsubmit.co/laprrkassociates@gmail.com" method="POST" className="bg-card rounded-xl p-8 border border-border space-y-4">
+              <form onSubmit={handleSubmit} className="bg-card rounded-xl p-8 border border-border space-y-4">
                 <h3 className="text-xl font-bold mb-4">Send us a Message</h3>
                 
-                {/* FormSubmit Configuration */}
-                <input type="hidden" name="_subject" value="New Contact Form Submission - Laprrk Associates" />
-                <input type="hidden" name="_captcha" value="false" />
-                <input type="hidden" name="_template" value="table" />
-                
-                <Input name="name" placeholder="Full Name *" required />
-                <Input name="phone" placeholder="Phone Number *" required />
-                <Input type="email" name="email" placeholder="Email Address *" required />
-                <Input name="service" placeholder="Service (e.g., Insurance, Investment, Loan, Value Added)" />
-                <Textarea name="message" placeholder="Your Message" rows={4} />
-                <Button type="submit" className="w-full bg-accent hover:bg-digiserve-red-hover"><Send className="w-4 h-4 mr-2" />Send Message</Button>
+                <Input name="name" placeholder="Full Name *" required disabled={isSubmitting} />
+                <Input name="phone" placeholder="Phone Number *" required disabled={isSubmitting} />
+                <Input type="email" name="email" placeholder="Email Address *" required disabled={isSubmitting} />
+                <Input name="service" placeholder="Service (e.g., Insurance, Investment, Loan, Value Added)" disabled={isSubmitting} />
+                <Textarea name="message" placeholder="Your Message" rows={4} disabled={isSubmitting} />
+                <Button type="submit" className="w-full bg-accent hover:bg-digiserve-red-hover" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    "Sending..."
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4 mr-2" />Send Message
+                    </>
+                  )}
+                </Button>
               </form>
             </motion.div>
           </div>
         </div>
       </section>
+
+      <Dialog open={showSuccess} onOpenChange={setShowSuccess}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader className="flex flex-col items-center text-center space-y-4 pt-4">
+            <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center">
+              <CheckCircle2 className="w-8 h-8 text-green-600" />
+            </div>
+            <DialogTitle className="text-2xl font-bold">Thank You!</DialogTitle>
+            <DialogDescription className="text-base text-center max-w-[350px]">
+              Thank you for contacting with us, Our representative will contact you soon.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="sm:justify-center p-2">
+            <DialogClose asChild>
+              <Button type="button" variant="secondary" className="px-8 bg-primary text-primary-foreground hover:bg-primary/90">
+                Close
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Layout>
   );
 };
