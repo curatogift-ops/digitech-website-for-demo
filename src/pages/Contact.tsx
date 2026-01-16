@@ -14,13 +14,21 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!captchaToken) {
+      alert("Please complete the captcha verification");
+      return;
+    }
+
     setIsSubmitting(true);
 
     const formData = new FormData(e.currentTarget);
@@ -97,6 +105,14 @@ const Contact = () => {
                 <Input type="email" name="email" placeholder="Email Address *" required disabled={isSubmitting} />
                 <Input name="service" placeholder="Service (e.g., Insurance, Investment, Loan, Value Added)" disabled={isSubmitting} />
                 <Textarea name="message" placeholder="Your Message" rows={4} disabled={isSubmitting} />
+                
+                <div className="flex justify-center sm:justify-start">
+                  <ReCAPTCHA
+                    sitekey="6LeLRkwsAAAAANQgppPLSXM8h76HMZZi0wjDPpRc"
+                    onChange={(token) => setCaptchaToken(token)}
+                  />
+                </div>
+
                 <Button type="submit" className="w-full bg-accent hover:bg-digiserve-red-hover" disabled={isSubmitting}>
                   {isSubmitting ? (
                     "Sending..."
