@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom";
+"use client";
+
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { 
   FileText, 
@@ -75,7 +77,7 @@ export function ServicesSection() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <Link
-                to={service.href}
+                href={service.href}
                 className="group block h-full bg-card rounded-xl p-6 border border-border hover:border-primary/30 hover:shadow-lg transition-all duration-300"
               >
                 <div className={cn("w-14 h-14 rounded-lg flex items-center justify-center mb-4", service.color)}>
@@ -105,7 +107,7 @@ export function ServicesSection() {
           className="text-center mt-10"
         >
           <Link
-            to="/services"
+            href="/services"
             className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
           >
             View All Services

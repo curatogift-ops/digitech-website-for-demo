@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Phone, Mail, MapPin, Facebook, Twitter, Instagram, Linkedin, Youtube } from "lucide-react";
 
 const serviceLinks = [
@@ -32,7 +32,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand Column */}
           <div className="space-y-4">
-            <Link to="/" className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-2">
               <span className="font-montserrat font-bold text-2xl text-primary-foreground">
                 Laprrk Associates
               </span>
@@ -97,7 +97,7 @@ export function Footer() {
               {serviceLinks.map((link) => (
                 <li key={link.name}>
                   <Link
-                    to={link.href}
+                    href={link.href}
                     className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors"
                   >
                     {link.name}
@@ -114,7 +114,7 @@ export function Footer() {
               {quickLinks.map((link) => (
                 <li key={link.name}>
                   <Link
-                    to={link.href}
+                    href={link.href}
                     className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors"
                   >
                     {link.name}
@@ -167,7 +167,7 @@ export function Footer() {
             {legalLinks.map((link) => (
               <li key={link.name}>
                 <Link
-                  to={link.href}
+                  href={link.href}
                   className="text-sm text-primary-foreground/60 hover:text-primary-foreground transition-colors"
                 >
                   {link.name}

@@ -1,4 +1,5 @@
-import { Layout } from "@/components/layout";
+"use client";
+
 import { motion } from "framer-motion";
 import { Calendar } from "lucide-react";
 
@@ -27,7 +28,7 @@ const posts = [
 ];
 
 const Blog = () => (
-  <Layout>
+  <>
     <section className="pt-32 pb-16 gradient-hero text-primary-foreground">
       <div className="container text-center">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">Blog & Resources</h1>
@@ -60,7 +61,7 @@ const Blog = () => (
         </div>
       </div>
     </section>
-  </Layout>
+  </>
 );
 
 export default Blog;

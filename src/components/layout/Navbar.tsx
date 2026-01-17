@@ -1,5 +1,8 @@
+"use client";
+
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X, Phone, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -27,7 +30,7 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const location = useLocation();
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,7 +43,7 @@ export function Navbar() {
   useEffect(() => {
     setIsMobileMenuOpen(false);
     setOpenDropdown(null);
-  }, [location.pathname]);
+  }, [pathname]);
 
   return (
     <header
@@ -54,7 +57,7 @@ export function Navbar() {
       <div className="container mx-auto">
         <nav className="flex items-center justify-between py-4">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
+          <Link href="/" className="flex items-center">
             <span className={cn(
               "font-montserrat font-bold text-xl md:text-2xl",
               isScrolled ? "text-primary" : "text-white"
@@ -73,14 +76,14 @@ export function Navbar() {
                 onMouseLeave={() => setOpenDropdown(null)}
               >
                 <Link
-                  to={link.href}
+                  href={link.href}
                   className={cn(
                     "px-4 py-2 text-sm font-medium rounded-md transition-colors flex items-center gap-1",
                     isScrolled
-                      ? location.pathname === link.href
+                      ? pathname === link.href
                         ? "text-primary bg-primary/5"
                         : "text-foreground/80 hover:text-primary hover:bg-primary/5"
-                      : location.pathname === link.href
+                      : pathname === link.href
                         ? "text-white bg-white/10"
                         : "text-white/90 hover:text-white hover:bg-white/10"
                   )}
@@ -102,7 +105,7 @@ export function Navbar() {
                       {link.dropdown.map((item) => (
                         <Link
                           key={item.name}
-                          to={item.href}
+                          href={item.href}
                           className="block px-4 py-3 text-sm text-foreground/80 hover:bg-primary/5 hover:text-primary transition-colors"
                         >
                           {item.name}
@@ -125,7 +128,7 @@ export function Navbar() {
               <span>9311407461 / 8800975636</span>
             </a>
             <Button asChild className="bg-accent hover:bg-digiserve-red-hover text-accent-foreground">
-              <Link to="/contact">Get Started</Link>
+              <Link href="/contact">Get Started</Link>
             </Button>
           </div>
 
@@ -156,10 +159,10 @@ export function Navbar() {
               {navLinks.map((link) => (
                 <div key={link.name}>
                   <Link
-                    to={link.href}
+                    href={link.href}
                     className={cn(
                       "block px-4 py-3 text-sm font-medium rounded-md transition-colors",
-                      location.pathname === link.href
+                      pathname === link.href
                         ? "text-primary bg-primary/10"
                         : "text-foreground/80 hover:text-primary hover:bg-primary/5"
                     )}
@@ -171,7 +174,7 @@ export function Navbar() {
                       {link.dropdown.map((item) => (
                         <Link
                           key={item.name}
-                          to={item.href}
+                          href={item.href}
                           className="block px-4 py-2 text-sm text-muted-foreground hover:text-primary transition-colors"
                         >
                           {item.name}
@@ -187,7 +190,7 @@ export function Navbar() {
                   <span>9311407461 / 8800975636</span>
                 </a>
                 <Button asChild className="w-full bg-accent hover:bg-digiserve-red-hover text-accent-foreground">
-                  <Link to="/contact">Get Started</Link>
+                  <Link href="/contact">Get Started</Link>
                 </Button>
               </div>
             </div>

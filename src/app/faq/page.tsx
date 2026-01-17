@@ -1,4 +1,5 @@
-import { Layout } from "@/components/layout";
+"use client";
+
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const faqs = [
@@ -29,7 +30,7 @@ const faqs = [
 ];
 
 const FAQ = () => (
-  <Layout>
+  <>
     <section className="pt-32 pb-16 gradient-hero text-primary-foreground">
       <div className="container text-center">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">Frequently Asked Questions</h1>
@@ -48,7 +49,7 @@ const FAQ = () => (
         </Accordion>
       </div>
     </section>
-  </Layout>
+  </>
 );
 
 export default FAQ;

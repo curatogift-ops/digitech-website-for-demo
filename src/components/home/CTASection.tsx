@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom";
+"use client";
+
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Phone, MessageCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -34,7 +36,7 @@ export function CTASection() {
               size="lg"
               className="bg-accent hover:bg-digiserve-red-hover text-accent-foreground w-full sm:w-auto"
             >
-              <Link to="/contact">
+              <Link href="/contact">
                 Get Free Consultation
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Link>

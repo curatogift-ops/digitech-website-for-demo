@@ -1,19 +1,21 @@
-import { Link } from "react-router-dom";
+"use client";
+
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Search, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 
 export function HeroSection() {
   const [searchQuery, setSearchQuery] = useState("");
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/services?search=${encodeURIComponent(searchQuery)}`);
+      router.push(`/services?search=${encodeURIComponent(searchQuery)}`);
     }
   };
 
@@ -66,13 +68,13 @@ export function HeroSection() {
             {/* CTA Buttons */}
             <div className="flex flex-wrap gap-4">
               <Button asChild size="lg" className="bg-accent hover:bg-digiserve-red-hover text-accent-foreground">
-                <Link to="/services">
+                <Link href="/services">
                   Explore Services
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10">
-                <Link to="/contact">Contact Us</Link>
+                <Link href="/contact">Contact Us</Link>
               </Button>
             </div>
           </motion.div>

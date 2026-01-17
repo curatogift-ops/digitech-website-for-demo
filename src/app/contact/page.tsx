@@ -1,4 +1,5 @@
-import { Layout } from "@/components/layout";
+"use client";
+
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Phone, Mail, MapPin, Send, MessageCircle, CheckCircle2 } from "lucide-react";
@@ -14,59 +15,53 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
-import ReCAPTCHA from "react-google-recaptcha";
 
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (!captchaToken) {
-      alert("Please complete the captcha verification");
-      return;
-    }
-
+    
     setIsSubmitting(true);
+    setError(null);
 
     const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
-
-    // Add configuration fields
-    const payload = {
-      ...data,
-      _subject: "New Contact Form Submission - Laprrk Associates",
-      _captcha: "false",
-      _template: "table",
+    const data = {
+      name: formData.get("name") as string,
+      phone: formData.get("phone") as string,
+      email: formData.get("email") as string,
+      service: formData.get("service") as string,
+      message: formData.get("message") as string,
     };
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/laprrkassociates@gmail.com", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(data),
       });
 
       if (response.ok) {
         setShowSuccess(true);
         (e.target as HTMLFormElement).reset();
       } else {
-        console.error("Form submission failed");
+        const errorData = await response.json();
+        setError(errorData.error || "Failed to send message. Please try again.");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
+      setError("Failed to send message. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <Layout>
+    <>
       <section className="pt-32 pb-16 gradient-hero text-primary-foreground">
         <div className="container text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
@@ -106,13 +101,12 @@ const Contact = () => {
                 <Input name="service" placeholder="Service (e.g., Insurance, Investment, Loan, Value Added)" disabled={isSubmitting} />
                 <Textarea name="message" placeholder="Your Message" rows={4} disabled={isSubmitting} />
                 
-                <div className="flex justify-center sm:justify-start">
-                  <ReCAPTCHA
-                    sitekey="6LeLRkwsAAAAANQgppPLSXM8h76HMZZi0wjDPpRc"
-                    onChange={(token) => setCaptchaToken(token)}
-                  />
-                </div>
-
+                {error && (
+                  <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
+                    {error}
+                  </div>
+                )}
+                
                 <Button type="submit" className="w-full bg-accent hover:bg-digiserve-red-hover" disabled={isSubmitting}>
                   {isSubmitting ? (
                     "Sending..."
@@ -148,7 +142,7 @@ const Contact = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </Layout>
+    </>
   );
 };
 

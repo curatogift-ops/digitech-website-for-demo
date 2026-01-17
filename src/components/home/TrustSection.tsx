@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { Shield, Clock, Users, Award, HeadphonesIcon, CheckCircle } from "lucide-react";
 

@@ -1,5 +1,7 @@
-import { Layout } from "@/components/layout";
-import { useParams, Link } from "react-router-dom";
+"use client";
+
+import { useParams } from "next/navigation";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle, Clock, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -48,11 +50,12 @@ const categoryData: Record<string, { title: string; description: string; service
 };
 
 const ServiceCategory = () => {
-  const { category } = useParams();
+  const params = useParams();
+  const category = params?.category as string;
   const data = categoryData[category || ""] || { title: "Services", description: "", services: [] };
 
   return (
-    <Layout>
+    <>
       <section className="pt-32 pb-16 gradient-hero text-primary-foreground">
         <div className="container text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">{data.title}</h1>
@@ -72,13 +75,13 @@ const ServiceCategory = () => {
                   <p className="text-sm font-medium mb-2 flex items-center gap-2"><FileText className="w-4 h-4" />Required Documents:</p>
                   <ul className="space-y-1">{service.docs.map((doc) => <li key={doc} className="text-sm text-muted-foreground flex items-center gap-2"><CheckCircle className="w-3 h-3 text-accent" />{doc}</li>)}</ul>
                 </div>
-                <Button asChild className="w-full bg-accent hover:bg-digiserve-red-hover"><Link to="/contact">Enquire Now <ArrowRight className="w-4 h-4 ml-2" /></Link></Button>
+                <Button asChild className="w-full bg-accent hover:bg-digiserve-red-hover"><Link href="/contact">Enquire Now <ArrowRight className="w-4 h-4 ml-2" /></Link></Button>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
-    </Layout>
+    </>
   );
 };
 

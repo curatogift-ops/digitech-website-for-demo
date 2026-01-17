@@ -1,9 +1,10 @@
-import { Layout } from "@/components/layout";
+"use client";
+
 import { motion } from "framer-motion";
 import { Shield, Clock, Users, Award, Target, Heart } from "lucide-react";
 
 const About = () => (
-  <Layout>
+  <>
     <section className="pt-32 pb-16 gradient-hero text-primary-foreground">
       <div className="container text-center">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">About Laprrk Associates</h1>
@@ -41,7 +42,7 @@ const About = () => (
         </div>
       </div>
     </section>
-  </Layout>
+  </>
 );
 
 export default About;
