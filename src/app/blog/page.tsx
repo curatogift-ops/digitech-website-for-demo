@@ -25,6 +25,13 @@ const posts = [
     category: "Loans",
     content: "Buying your dream home becomes easier with the right home loan. Understanding the loan process is crucial - from checking eligibility to documentation and approval. Banks consider your credit score, income stability, and existing liabilities. At Laprrk Associates, we help you compare offers from multiple lenders to get the best interest rates. We assist with complete documentation including income proof, property papers, and bank statements. Our loan experts handle the entire process from application to disbursement, ensuring you get favorable terms. We also help with Personal Loans, Business Loans, Car Loans, Education Loans, and Loan Against Property."
   },
+  { 
+    id: 4, 
+    title: "Tax Saving Strategies for 2026: Maximize Your Returns with Smart Planning", 
+    date: "Jan 2, 2026", 
+    category: "Finance",
+    content: "Tax planning is essential for wealth maximization. Understanding various tax-saving instruments under Section 80C can help you save up to ₹1.5 lakh annually. ELSS mutual funds offer the shortest lock-in period of 3 years with potential for higher returns. PPF provides guaranteed returns with complete tax exemption. National Pension Scheme (NPS) offers an additional ₹50,000 deduction under Section 80CCD(1B). Health insurance premiums qualify for deductions under Section 80D, with senior citizens getting higher benefits. At Laprrk Associates, we provide personalized tax planning advice to help you minimize tax liability while building long-term wealth. Start planning early to make the most of available deductions and exemptions."
+  },
 ];
 
 const Blog = () => (
